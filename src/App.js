@@ -2,24 +2,45 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+import List from './components/List'
+import Info from './components/Info'
+import Selections from './components/Selections'
+
 class App extends Component {
+  constructor() {
+    super()
+    
+    this.state = {
+      selectedType: '',
+      results: [],
+      selectedRepresentative: {
+        name: '',
+        district: '',
+        phone: '',
+        office: ''
+      }
+    }
+  }
+
+  changeSelectedRep = (selectedRepresentative) => {
+    this.setState({
+      selectedRepresentative
+    })
+  }
+
+  updateState = (newState) => {
+    this.setState(newState)
+  }
+
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+      <div style={{padding: 50}}>
+        <h1 style={{color: '#1a73e8'}}>Who's My Representative</h1>
+        <Selections updateAppState={this.updateState} />
+        <div style={{display: 'flex', width: '100%'}}>
+          <List { ...this.state }  handleRepClick={this.changeSelectedRep} style={{flex: 1}}/>
+          <Info representative={this.state.selectedRepresentative} style={{flex: 1}}/>
+        </div>
       </div>
     );
   }
